@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './components/layout/Home';
