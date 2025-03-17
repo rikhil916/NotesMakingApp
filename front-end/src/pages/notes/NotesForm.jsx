@@ -1,15 +1,34 @@
 import { useState } from "react";
-
+import toast from "react-hot-toast";
+import axios from "axios";
 export default function NoteForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     console.log(title);
     console.log(content);
     setTitle("");
     setContent("");
+
+    const res=await axios.post("http://localhost:8080/api/auth/note/create-note",{
+      title:title,
+      content:content
+    },
+    {headers:{
+      Authorization:`Bearer ${localStorage.getItem("token")}`,
+    },});
+
+    if(res.data.success){
+      toast.success("Note created successfully")
+    }
+    else{
+      toast.error("Something went wrong")
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -43,12 +62,23 @@ export default function NoteForm() {
               placeholder="Enter content"
             />
           </div>
+          {isLoading ?(
+            <>
+                <button
+                  disabled={true}
+                  type="submit"
+                  className="w-full bg-blue-600 text-white p-3 rounded-md font-semibold hover:bg-blue-700 transition duration-300">
+                    Add Note
+                  </button>
+              </>
+          ):(
+            <>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white p-3 rounded-md font-semibold hover:bg-blue-700 transition duration-300"
-          >
+            className="w-full bg-blue-600 text-white p-3 rounded-md font-semibold hover:bg-blue-700 transition duration-300">
             Add Note
           </button>
+          </>)}
         </form>
       </div>
     </div>

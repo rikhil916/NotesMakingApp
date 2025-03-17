@@ -2,9 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Signup() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const [username, setUsername] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
 
   async function createAccount(e) {
     e.preventDefault();
